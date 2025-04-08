@@ -4,11 +4,11 @@ import setuptools
 
 setuptools.setup(
     name="LMK05318",
-    version="0.1.0",
+    version="0.1.1",
     author="Oleksandr Shevchenko",
     author_email="shevchenko.adb@gmail.com",
     description="A pure Python 3 library for LMK05318 device.",
-    readme="README.md",
+    #readme="README.md",
     # long_description="""Linux pure Python library for LMK05318 Ultra-Low Jitter Network Synchronizer Clock With Two Frequency Domains.""",
     long_description=open("README.md", 'r').read(),
     long_description_content_type='text/markdown',
