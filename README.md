@@ -41,22 +41,25 @@ cd /tmp && ./untar_install.sh LMK05318
 
 Run as root:
 ```
-# python3 -m lmk05318
-usage: __main__.py [-h] [{wfile,rfile,sdpll,spllxo}] [arg2]
+# python3 -m lmk05318     
+usage: __main__.py [-h] [-b BUS] [-a ADDR] [{wfile,rfile,sdpll,sapll,spll}] [arg2]
 
 LMK05318 configuration and status utility.
 
 positional arguments:
-  {wfile,rfile,sdpll,spllxo}
+  {wfile,rfile,sdpll,sapll,spll}
                         wfile path    Write cfg regs to eeprom from file (path) prepared
                                       by TI utility TICSPRO-SW.
                         rfile path    Dump cfg regs to file (path)
-                        sdpll         Get status dpll.
-                        spllxo        Get status pll xo.
+                        sdpll         Get status of DPLL.
+                        sapll         Get APLL and XO status.
+                        spll          Get full status.
   arg2                  Optional parameter for cmd.
 
 optional arguments:
   -h, --help            show this help message and exit
+  -b BUS, --bus BUS     Specify I2C bus number, default - 0.
+  -a ADDR, --addr ADDR  Specify I2C address, default - 0x64.
 ```
 ## Write to EEPROM the registers file prepared by TI utility TICS Pro
 Copy the file to the board:
@@ -65,7 +68,7 @@ scp ./HexRegisterValues_free_run.txt   root@192.168.2.16:/tmp/LMK05318
 ```
 Flash the file to the chip's EEPROM:
 ```
-root@eccahemcmain1:/tmp/LMK05318# python3 -m lmk05318 wfile ./HexRegisterValues_free_run.txt 
+root@eccahemcmain1:/tmp/LMK05318# python3 -m lmk05318 -b 0 -a 0x64 wfile ./HexRegisterValues_free_run.txt 
 INFO:lmk05318:Vendor ID Readback: 0x100B
 INFO:lmk05318:Product ID Readback: 0x35
 LMK05318 valid: True
@@ -97,7 +100,7 @@ root@eccahemcmain1:/tmp/LMK05318#
 ```
 ## Read back all the registers from LMK05318 device to the file:
 ```
-root@eccahemcmain1:/tmp# python3 -m lmk05318 rfile ./HexRegs.txt
+root@eccahemcmain1:/tmp# python3 -m lmk05318 -b 0 -a 0x64 rfile ./HexRegs.txt
 INFO:lmk05318:Vendor ID Readback: 0x100B
 INFO:lmk05318:Product ID Readback: 0x35
 LMK05318 valid: True
@@ -105,7 +108,7 @@ LMK05318 valid: True
 ## Check DPLL and APLL status:
 Check DPLL:
 ```
-root@eccahemcmain1:/tmp# python3 -m lmk05318 sdpll
+root@eccahemcmain1:/tmp# python3 -m lmk05318 -b 0 -a 0x64 sdpll
 INFO:lmk05318:Vendor ID Readback: 0x100B
 INFO:lmk05318:Product ID Readback: 0x35
 LMK05318 valid: True
@@ -121,10 +124,32 @@ LMK05318 valid: True
 ```
 Check APLL:
 ```
-root@eccahemcmain1:/tmp# python3 -m lmk05318 spllxo
+root@eccahemcmain1:/tmp# python3 -m lmk05318 -b 0 -a 0x64 sapll
 INFO:lmk05318:Vendor ID Readback: 0x100B
 INFO:lmk05318:Product ID Readback: 0x35
 LMK05318 valid: True
+
+        Loss of freq. detection XO: 0
+        Loss of lock APLL2: 1
+        Loss of lock APLL1: 0
+        Loss of source XO: 0
+```
+Check full (DPLL, APLL and XO) status:
+```
+root@eccahemcmain1:/tmp# python3 -m lmk05318 spll
+INFO:lmk05318:Vendor ID Readback: 0x100B
+INFO:lmk05318:Product ID Readback: 0x35
+LMK05318 valid: True
+
+        Loss of phase lock: 1
+        Loss of freq. lock: 1
+        Tuning word update: 1
+        Holdover Event: 1
+        Reference Switch Event: 0
+        Active ref. missing clk: 0
+        Active ref. loss freq.: 0
+        Active ref. loss ampl.: 0
+        
 
         Loss of freq. detection XO: 0
         Loss of lock APLL2: 1
