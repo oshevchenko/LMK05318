@@ -4,7 +4,7 @@ import setuptools
 
 setuptools.setup(
     name="LMK05318",
-    version="0.1.1",
+    version="0.1.2",
     author="Oleksandr Shevchenko",
     author_email="shevchenko.adb@gmail.com",
     description="A pure Python 3 library for LMK05318 device.",
