@@ -27,6 +27,6 @@ echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
 echo "Files copied to board!"
 echo "Now run the following commands on board as root:"
 echo "cd ${DST_DIR} && ./untar_install.sh ${PROJECT}"
-echo "python3 ${PROJECT}/test.py"
+echo "python3 -m lmk05318"
 exit 0
 # End of snippet
